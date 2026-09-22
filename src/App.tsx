@@ -80,6 +80,11 @@ export default function App() {
     })
   }, [profilUrl])
 
+  // Changer d'onglet ramène en haut : sinon on arrive au milieu de l'écran précédent.
+  useEffect(() => {
+    window.scrollTo({ top: 0 })
+  }, [tab, phase])
+
   useEffect(() => {
     const onPrompt = (event: Event) => {
       event.preventDefault()

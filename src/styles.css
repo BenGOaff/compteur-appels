@@ -114,7 +114,9 @@ button {
 }
 
 .site-footer {
-  margin-top: auto;
+  /* Pas de margin-top:auto ici : une marge automatique absorbe tout l'espace
+     libre et empêcherait <main> de grandir, donc de centrer son contenu.
+     Le flex:1 de <main> suffit à coller le pied de page en bas. */
   padding: 24px 0 16px;
   font-size: 13px;
   color: var(--mute);
@@ -139,8 +141,10 @@ main {
   padding: 16px 0 24px;
 }
 
-.with-tabs main {
-  padding-bottom: 96px;
+/* La place de la barre d'onglets est réservée sur toute la page,
+   sinon le pied de page se glisse dessous. */
+.app.with-tabs {
+  padding-bottom: calc(72px + env(safe-area-inset-bottom));
 }
 
 /* ---------- Blocs ---------- */
@@ -821,7 +825,7 @@ details.method .content {
     display: none !important;
   }
 
-  .with-tabs main {
+  .app.with-tabs {
     padding-bottom: 0;
   }
 
@@ -898,4 +902,86 @@ details.method .content {
   font-weight: 600;
   font-size: 15px;
   white-space: nowrap;
+}
+
+
+/* ---------- Ordinateur ---------- */
+
+@media (min-width: 768px) {
+  main {
+    display: flex;
+    flex-direction: column;
+    padding: 40px 0;
+  }
+
+  /* Centre le contenu quand la page est plus courte que l'écran,
+     et le laisse défiler normalement quand elle est plus longue.
+     Le sélecteur vise .shell : sa règle margin:0 auto l'emporterait sinon. */
+  main > .shell {
+    width: 100%;
+    margin-block: auto;
+  }
+
+  .site-header {
+    padding: 14px 0;
+  }
+
+  .site-footer {
+    padding: 28px 0 24px;
+  }
+
+  h1 {
+    font-size: 30px;
+    margin-bottom: 12px;
+  }
+
+  .count-hero {
+    padding: 10px 0 20px;
+  }
+
+  .count-hero .number {
+    font-size: 64px;
+  }
+
+  .hero-result .amount {
+    font-size: 38px;
+  }
+
+  .app.with-tabs {
+    padding-bottom: 104px;
+  }
+
+  .tabbar {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    bottom: 24px;
+    width: min(560px, calc(100% - 32px));
+    border: 1px solid var(--line);
+    border-top: 1px solid var(--line);
+    border-radius: 99px;
+    box-shadow: 0 12px 32px rgba(10, 37, 64, 0.14);
+    padding: 6px;
+    overflow: hidden;
+  }
+
+  .tabbar .shell {
+    padding: 0;
+    gap: 4px;
+  }
+
+  .tabbar button {
+    min-height: 48px;
+    border-top: none;
+    border-radius: 99px;
+  }
+
+  .tabbar button[aria-current='page'] {
+    background: var(--g1);
+    color: var(--ink);
+  }
+
+  .toast {
+    bottom: 112px;
+  }
 }

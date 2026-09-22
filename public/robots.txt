@@ -1,0 +1,3 @@
+# Outil réservé aux personnes qui ont fait le quiz : rien à indexer ici.
+User-agent: *
+Disallow: /

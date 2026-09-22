@@ -1,0 +1,10 @@
+node_modules
+dist
+dev-dist
+*.local.mjs
+*.local.js
+.DS_Store
+.env
+.env.*
+npm-debug.log*
+*.tsbuildinfo

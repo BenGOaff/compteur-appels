@@ -65,7 +65,7 @@ export default function App() {
 
   useEffect(() => {
     if (!toast) return
-    const id = window.setTimeout(() => setToast(null), 2200)
+    const id = window.setTimeout(() => setToast(null), 2000)
     return () => window.clearTimeout(id)
   }, [toast])
 
@@ -80,9 +80,11 @@ export default function App() {
     })
   }, [profilUrl])
 
-  // Changer d'onglet ramène en haut : sinon on arrive au milieu de l'écran précédent.
+  // Changer d'onglet ramène en haut (sinon on arrive au milieu de l'écran
+  // précédent) et efface le message de confirmation, qui n'a plus de sens ailleurs.
   useEffect(() => {
     window.scrollTo({ top: 0 })
+    setToast(null)
   }, [tab, phase])
 
   useEffect(() => {

@@ -10,7 +10,9 @@ type Props = {
 export default function Setup({ profile, onDone }: Props) {
   const [clientValue, setClientValue] = useState('')
   const [conversion, setConversion] = useState(3)
-  const [unknownRate, setUnknownRate] = useState(false)
+  // « Je ne sais pas » est coché d'entrée : sans réponse, l'outil doit annoncer
+  // une fourchette prudente plutôt qu'un taux unique que personne n'a choisi.
+  const [unknownRate, setUnknownRate] = useState(true)
   const [workingDays, setWorkingDays] = useState<5 | 6 | 7>(5)
 
   const valeur = Number(clientValue.replace(',', '.'))
@@ -50,13 +52,16 @@ export default function Setup({ profile, onDone }: Props) {
             min={1}
             max={10}
             step={1}
+            className={unknownRate ? 'inactif' : undefined}
             value={conversion}
-            disabled={unknownRate}
-            onChange={(event) => setConversion(Number(event.target.value))}
+            onChange={(event) => {
+              setConversion(Number(event.target.value))
+              setUnknownRate(false)
+            }}
           />
           <p className="center" aria-live="polite">
-            <strong style={{ color: 'var(--ink)', fontSize: '18px' }}>
-              {unknownRate ? 'Non renseigné' : `${conversion} sur 10`}
+            <strong style={{ color: unknownRate ? 'var(--mute)' : 'var(--ink)', fontSize: '18px' }}>
+              {unknownRate ? 'Fourchette de 1 à 3 sur 10' : `${conversion} sur 10`}
             </strong>
           </p>
           <label className="checkbox" htmlFor="taux-inconnu">
@@ -68,12 +73,11 @@ export default function Setup({ profile, onDone }: Props) {
             />
             Je ne sais pas
           </label>
-          {unknownRate && (
-            <p className="help">
-              Nous utiliserons alors une fourchette prudente de 1 à 3 sur 10, affichée en clair dans votre
-              résultat.
-            </p>
-          )}
+          <p className="help">
+            {unknownRate
+              ? 'Déplacez le curseur si vous connaissez votre chiffre. Sinon, votre résultat sera donné en fourchette, hypothèse affichée en clair.'
+              : 'Recochez « Je ne sais pas » si vous préférez une fourchette prudente.'}
+          </p>
         </div>
 
         <div className="field">

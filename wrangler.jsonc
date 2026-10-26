@@ -5,7 +5,5 @@
     "directory": "./dist",
     "html_handling": "drop-trailing-slash",
     "not_found_handling": "single-page-application"
-  },
-  "workers_dev": true,
-  "preview_urls": false
+  }
 }

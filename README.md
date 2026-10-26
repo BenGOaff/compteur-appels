@@ -32,7 +32,7 @@ Quatre fichiers portent la configuration d'hébergement. Cloudflare les lit sans
 | Fichier | Rôle |
 | --- | --- |
 | `wrangler.jsonc` | nom du service, et surtout `drop-trailing-slash` pour que `/appels` reste `/appels`, sans slash ajouté |
-| `public/_headers` | les en-têtes de sécurité, qui vivaient avant dans `.htaccess` |
+| `public/_headers` | les en-têtes de sécurité et les durées de cache, qui vivaient avant dans `.htaccess` |
 | `public/_redirects` | `/` repart vers `/appels` côté réseau, sans charger de page |
 | `public/.assetsignore` | empêche la publication de `.htaccess`, qui n'a rien à faire en ligne |
 

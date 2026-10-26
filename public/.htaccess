@@ -8,6 +8,11 @@
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+  # La racine rejoint l'adresse officielle de l'outil, comme public/_redirects
+  # le fait chez Cloudflare. Sans cette règle, / ouvrirait l'outil sur place :
+  # il fonctionnerait, mais sous une deuxième adresse.
+  RewriteRule ^$ /appels [L,R=302]
+
   # Les fichiers et dossiers existants sont servis tels quels ;
   # tout le reste ouvre l'outil.
   RewriteCond %{REQUEST_FILENAME} !-f

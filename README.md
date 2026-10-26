@@ -20,6 +20,7 @@ d'affaires et en temps passé à rappeler.
 | --- | --- |
 | Dépôt | `BenGOaff/compteur-appels` |
 | Branche | `main` |
+| Version de Node | `.node-version` à la racine du dépôt, plutôt qu'une variable de tableau de bord |
 | Commande de build | `npm run build` |
 | Commande de déploiement | `npx wrangler deploy` |
 | Dossier de sortie | `dist` |

@@ -14,25 +14,39 @@ d'affaires et en temps passé à rappeler.
 - Aucun cookie, aucun traceur. Les seules requêtes sortantes sont les fichiers de l'outil et Google Fonts.
 - Installable sur l'écran d'accueil et utilisable hors connexion.
 
-## Mise en ligne (Hostinger Web Apps)
+## Mise en ligne (Cloudflare Workers)
 
 | Réglage | Valeur |
 | --- | --- |
 | Dépôt | `BenGOaff/compteur-appels` |
 | Branche | `main` |
-| Framework | Vite |
-| Commande d'installation | `npm install` |
 | Commande de build | `npm run build` |
+| Commande de déploiement | `npx wrangler deploy` |
 | Dossier de sortie | `dist` |
-| Domaine | `outil.concierge-ai.fr` (avec SSL) |
+| Domaine | `outil.concierge-ai.fr` |
 
 Chaque envoi sur `main` reconstruit et remet l'outil en ligne automatiquement.
 
-À vérifier après la première mise en ligne : `/appels`, `/appels?profil=proche`, un rechargement de page,
+Quatre fichiers portent la configuration d'hébergement. Cloudflare les lit sans jamais les publier :
+
+| Fichier | Rôle |
+| --- | --- |
+| `wrangler.jsonc` | nom du service, et surtout `drop-trailing-slash` pour que `/appels` reste `/appels`, sans slash ajouté |
+| `public/_headers` | les en-têtes de sécurité et les durées de cache, qui vivaient avant dans `.htaccess` |
+| `public/_redirects` | `/` repart vers `/appels` côté réseau, sans charger de page |
+| `public/.assetsignore` | empêche la publication de `.htaccess`, qui n'a rien à faire en ligne |
+
+La politique de sécurité du contenu autorise nommément deux choses présentes dans le code.
+Les modifier casse l'affichage en silence :
+
+- le `onload` qui débloque les polices Google dans le `<head>` — son empreinte est inscrite dans `_headers` ;
+- les styles en ligne des composants React.
+
+À vérifier après chaque mise en ligne : `/`, `/appels`, `/appels?profil=proche`, un rechargement de page,
 et l'ouverture hors connexion une fois l'outil ajouté à l'écran d'accueil.
 
-Si Web Apps pose problème, le dossier `dist/` peut être déposé tel quel sur un hébergement classique :
-le fichier `.htaccess` inclus force le HTTPS et fait fonctionner l'adresse `/appels`.
+Le dossier `dist/` reste déposable tel quel sur un hébergement Apache classique :
+le `.htaccess` inclus y force le HTTPS et fait fonctionner l'adresse `/appels`.
 
 ## Le lien à envoyer
 

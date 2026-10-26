@@ -30,16 +30,10 @@
       />
     </noscript>
     <title>Compteur d'appels manqués · concierge-ai.fr</title>
-    <script>
-      // Sur /, on rejoint l'adresse officielle. Sur toute autre adresse, l'outil s'ouvre ici
-      // (certains hébergeurs servent cette page en repli) : jamais de boucle de redirection.
-      (function () {
-        var p = window.location.pathname
-        if (p === '/' || p === '/index.html') {
-          window.location.replace('/appels' + window.location.search + window.location.hash)
-        }
-      })()
-    </script>
+    <!-- La redirection de / vers /appels se fait maintenant dans public/_redirects,
+         donc côté réseau : le visiteur part vers l'outil sans avoir à télécharger
+         cette page ni à exécuter de script. Elle garde son rôle de page de repli,
+         servie telle quelle sur une adresse inconnue, où l'outil s'ouvre sur place. -->
   </head>
   <body>
     <div id="root"></div>
